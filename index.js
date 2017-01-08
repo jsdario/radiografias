@@ -14,11 +14,11 @@ const PIXEL_RATIO = (function () {
 })()
 
 var chars = ':.,,,,.,,,,,.,,.,,,.,,,;.(),;;.,,,,(),,;,,;;:,,;,:,,,:,.,,,,,.,,;,,;,,.(),,;,,,,,,;,,.,,,,,,,.,,,,,,,,,,.,;,.,,,,,.,,,;,,,,.,,.,,,,,,,,,,,,,.:,,.,,,,,.;,,;,,,.,,,,:,,,,;,,.,,,,,,.:,,,,;,,,:,,;,:,,,,,,,,.,,,,,,,,.,,,,,,,,,,.,,,,,,,,,,.:,,,,,,,,'
-chars = chars + chars
+chars = chars + chars + chars + chars
 
 const pi2 = 2 * PI
 const O = (t) => t / (pi2 * (1 + t / chars.length)) // angle printing
-const A = (t) => pi2 * (pi2 + O(t)) // amplification or radius
+const A = (t) => pi2 * (pi2 + O(t) + log(O(t) + 1))// amplification or radius
 
 const curveY = (t) => A(t) * sin(O(t))
 const curveX = (t) => A(t) * cos(O(t))
@@ -51,9 +51,18 @@ function printDataOnCanvas (data) {
   const context = canvas.getContext('2d')
 
   context.fillStyle = 'black'
-  context.font = '12pt Fira'
+  context.font = '24pt Fira'
 
   console.log('Started.')
+
+  context.fillText(
+    'Q',
+    canvasWidth / PIXEL_RATIO - pi2 * PIXEL_RATIO,
+    canvasHeight / PIXEL_RATIO
+  )
+
+  context.font = '12pt Fira'
+
 
   window.scrollTo(
     curveX(0) + canvasWidth / PIXEL_RATIO - window.innerWidth / 2,
@@ -92,4 +101,14 @@ function createHiDPICanvas (canvas, w, h, ratio) {
     canvas.style.height = h + 'px'
     canvas.getContext('2d').setTransform(ratio, 0, 0, ratio, 0, 0)
     return canvas
+}
+
+var dropTextOverlay = document.getElementById('drop-text-overlay')
+var dropTextTrigger = document.getElementById('drop-text-trigger')
+dropTextTrigger.onclick = () => {
+  console.log('clicked')
+  const visibility = dropTextOverlay.style.visibility
+  dropTextOverlay.style.visibility = visibility === 'hidden'
+    ? 'visible'
+    : 'hidden'
 }

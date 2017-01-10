@@ -13,33 +13,37 @@ const PIXEL_RATIO = (function () {
     return dpr / bsr
 })()
 
-var chars = ':.,,,,.,,,,,.,,.,,,.,,,;.(),;;.,,,,(),,;,,;;:,,;,:,,,:,.,,,,,.,,;,,;,,.(),,;,,,,,,;,,.,,,,,,,.,,,,,,,,,,.,;,.,,,,,.,,,;,,,,.,,.,,,,,,,,,,,,,.:,,.,,,,,.;,,;,,,.,,,,:,,,,;,,.,,,,,,.:,,,,;,,,:,,;,:,,,,,,,,.,,,,,,,,.,,,,,,,,,,.,,,,,,,,,,.:,,,,,,,,'
-chars = chars + chars + chars + chars
 
 const pi2 = 2 * PI
-const O = (t) => t / (pi2 * (1 + t / chars.length)) // angle printing
-const A = (t) => pi2 * (pi2 + O(t) + log(O(t) + 1))// amplification or radius
+// T = chars.length
+const O = (t, T) => t / (pi2 * (1 + t / T)) // angle printing
+const A = (t, T) => pi2 * (pi2 + O(t, T) + log(O(t, T) + 1))// amplification or radius
 
-const curveY = (t) => A(t) * sin(O(t))
-const curveX = (t) => A(t) * cos(O(t))
+const curveY = (t, T) => A(t, T) * sin(O(t, T))
+const curveX = (t, T) => A(t, T) * cos(O(t, T))
 
 /* fetch file */
-// const quixote_url = 'https://gist.githubusercontent.com/jsdario/6d6c69398cb0c73111e49f1218960f79/raw/f006a5221dd0ee5dddf0c638080d8eddcbe907a7/el_quijote.txt'
-//
-// fetch(quixote_url)
-// .then(res => res.text())
-// .then(res => {
-//   const symbols = res.replace(/[^?.,:;!¡¿。、·*\(\)\[\]\-\–\_«»\"\']/g, '')
-//   console.log('length of symbols', symbols.length)
-//   printDataOnCanvas(symbols)
-// })
+const quixote_url = 'https://gist.githubusercontent.com/jsdario/6d6c69398cb0c73111e49f1218960f79/raw/f006a5221dd0ee5dddf0c638080d8eddcbe907a7/el_quijote.txt'
 
-printDataOnCanvas(chars)
+fetch(quixote_url)
+.then(res => res.text())
+.then(res => {
+  const symbols = res.replace(/[^?.,:;!¡¿。、·*\(\)\[\]\-\–\_«»\"\']/g, '')
+
+    var chars = ':.,,,,.,,,,,.,,.,,,.,,,;.(),;;.,,,,(),,;,,;;:,,;,:,,,:,.,,,,,.,,;,,;,,.(),,;,,,,,,;,,.,,,,,,,.,,,,,,,,,,.,;,.,,,,,.,,,;,,,,.,,.,,,,,,,,,,,,,.:,,.,,,,,.;,,;,,,.,,,,:,,,,;,,.,,,,,,.:,,,,;,,,:,,;,:,,,,,,,,.,,,,,,,,.,,,,,,,,,,.,,,,,,,,,,.:,,,,,,,,'
+  chars = chars + chars + chars + chars + chars + chars + chars + chars + chars + chars
+  + chars + chars + chars + chars + chars + chars + chars + chars + chars 
+  + chars + chars + chars + chars + chars + chars + chars + chars + chars 
+  + chars + chars + chars+ chars + chars + ''
+
+  printDataOnCanvas(chars)
+})
 
 function printDataOnCanvas (data) {
   const symbols = data.split('')
+  const T = symbols.length
   const canvasRef = document.getElementById('entry-point')
-  const canvasWidth = A(symbols.length) * 2
+  const canvasWidth = A(T, T) * 2
   const canvasHeight = canvasWidth
 
   const canvas = createHiDPICanvas(
@@ -53,8 +57,6 @@ function printDataOnCanvas (data) {
   context.fillStyle = 'black'
   context.font = '24pt Fira'
 
-  console.log('Started.')
-
   context.fillText(
     'Q',
     canvasWidth / PIXEL_RATIO - pi2 * PIXEL_RATIO,
@@ -65,14 +67,14 @@ function printDataOnCanvas (data) {
 
 
   window.scrollTo(
-    curveX(0) + canvasWidth / PIXEL_RATIO - window.innerWidth / 2,
-    curveY(0) + canvasHeight / PIXEL_RATIO - window.innerHeight / 2
+    curveX(0, T) + canvasWidth / PIXEL_RATIO - window.innerWidth / 2,
+    curveY(0, T) + canvasHeight / PIXEL_RATIO - window.innerHeight / 2
   )
 
   async.eachOf(symbols, (symbol, t, done) => {
     context.save()
-    const x = curveX(t) + canvasWidth / PIXEL_RATIO
-    const y = curveY(t) + canvasHeight / PIXEL_RATIO
+    const x = curveX(t, T) + canvasWidth / PIXEL_RATIO
+    const y = curveY(t, T) + canvasHeight / PIXEL_RATIO
     // console.log(`(${x}, ${y})`)
     context.translate(
       x,
@@ -81,7 +83,7 @@ function printDataOnCanvas (data) {
 
     // esta parte es bastante dificil
     // tengo que hacer que todos los caracteres esten rotados 90
-    context.rotate(O(t) + PI / 2)
+    context.rotate(O(t, T) + PI / 2)
     context.fillText(
       symbol,
       0,
@@ -112,3 +114,33 @@ dropTextTrigger.onclick = () => {
     ? 'visible'
     : 'hidden'
 }
+
+
+var isDragging = 0
+window.addEventListener("dragover", (e) => {
+  isDragging++
+  dropTextOverlay.style.visibility = 'visible'
+}, false)
+
+window.addEventListener("dragleave", () => {
+  isDragging--
+  if (isDragging === 0) {
+    dropTextOverlay.style.visibility = 'hidden'
+  }
+}, false)
+
+const reader = new FileReader()
+reader.onload = (e) => {
+  const symbols = e.target.result.replace(/[^?.,:;!¡¿。、·*\(\)\[\]\-\–\_«»\"\']/g, '')
+  printDataOnCanvas(symbols)
+  dropTextOverlay.style.visibility = 'hidden'
+}
+
+window.addEventListener("drop", (e) => {
+  e.preventDefault()
+  e.stopPropagation()
+  var file = (e.target.files || e.dataTransfer.files)[0]
+  reader.readAsText(file)
+  return false
+}, false)
+

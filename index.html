@@ -3,50 +3,62 @@
 <head>
   <title>Q</title>
   <style>
-  * { margin: 0; padding: 0; }
+    * { margin: 0; padding: 0; }
+    *:focus {
+      outline: none;
+    }
 
-  #drop-text-overlay {
-    height: 100vh;
-    width: 100vw;
-    position: fixed;
-    background-color: rgba(255, 255, 255, .9);
-    top: 0; left: 0;
-    z-index: 5;
-  }
+    input::-webkit-input-placeholder,
+    textarea::-webkit-input-placeholder {
+      color: #ccc;
+      text-shadow: none;
+      -webkit-text-fill-color: initial;
+    }
 
-  #drop-text-input {
-    margin-top: 33vh;
-    width: 100vw;
-    min-height: 72px;
-    font-size: 36pt;
-    text-align: center;
-    border: none;
-    background-color: transparent;
-  }
+    #drop-text-overlay {
+      height: 100vh;
+      width: 100vw;
+      position: fixed;
+      visibility: hidden;
+      background-color: rgba(255, 255, 255, .9);
+      top: 0; left: 0;
+      z-index: 5;
+    }
 
-  #drop-text-button {
-    position: fixed;
-    bottom: 25px;
-    right: 25px;
-    font-size: 32px;
-    height: 50px; width: 50px;
-    display: block;
-    z-index: 10;
-  }
+    #drop-text-input {
+      width: 80vw;
+      height: 80vh;
+      margin: 10vw 10vh;
+      min-height: 72px;
+      font-size: 36pt;
+      text-align: center;
+      border: none;
+      background-color: transparent;
+      resize: none;
+    }
 
-  #drop-text-trigger {
-    border-radius: 50%;
-    box-shadow: 0 0 5px black;
-    background-color: black;
-    cursor: pointer;
-    display: block;
-    color: white;
-    padding-top: 4px;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    user-select: none;
-  }
+    #drop-text-button {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      font-size: 32px;
+      height: 50px; width: 50px;
+      display: block;
+      z-index: 10;
+    }
+
+    #drop-text-trigger {
+      border-radius: 50%;
+      box-shadow: 0 0 5px black;
+      background-color: black;
+      cursor: pointer;
+      display: block;
+      color: white;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      user-select: none;
+    }
   </style>
 </head>
 <body>
@@ -54,14 +66,11 @@
   <canvas id="entry-point" width="200" height="200"></canvas>
 
   <div id="drop-text-overlay">
-    <input
-      id="drop-text-input"
-      placeholder="Add text or drop it on the browser...">
-    </input>
+    <textarea id="drop-text-input" placeholder="Add text or drop it on the browser..."></textarea>
   </div>
 
   <div id="drop-text-button">
-      <span id="drop-text-trigger">¶</span>
+  <span id="drop-text-trigger"><span style="display: block; padding-top: 4px">¶</span></span>
   </div>
 
   <script src="bower_components/async/dist/async.js"></script>

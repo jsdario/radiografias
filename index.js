@@ -28,7 +28,7 @@ const quixote_url = 'https://gist.githubusercontent.com/jsdario/6d6c69398cb0c731
 fetch(quixote_url)
 .then(res => res.text())
 .then(res => {
-  const symbols = res.replace(/[^?.,:;!¡¿。、·*\(\)\[\]\-\–\_«»\"\']/g, '')
+  const symbols = res.replace(/[^?.,:;!¡¿。、·*\(\)\[\]\-\–\_«»\'\']/g, '')
 
   printDataOnCanvas(symbols)
 })
@@ -37,8 +37,10 @@ function printDataOnCanvas (data) {
   const symbols = data.split('')
   const T = symbols.length
   const canvasRef = document.getElementById('entry-point')
-  const canvasWidth = A(T, T) * 2
+  const canvasWidth = Math.min(A(T) * 2, 8150)
   const canvasHeight = canvasWidth
+
+  console.log({canvasWidth})
 
   const canvas = createHiDPICanvas(
     canvasRef,
@@ -110,12 +112,12 @@ dropTextTrigger.onclick = () => {
 
 
 var isDragging = 0
-window.addEventListener("dragover", (e) => {
+window.addEventListener('dragover', (e) => {
   isDragging++
   dropTextOverlay.style.visibility = 'visible'
 }, false)
 
-window.addEventListener("dragleave", () => {
+window.addEventListener('dragleave', () => {
   isDragging--
   if (isDragging === 0) {
     dropTextOverlay.style.visibility = 'hidden'
@@ -124,12 +126,12 @@ window.addEventListener("dragleave", () => {
 
 const reader = new FileReader()
 reader.onload = (e) => {
-  const symbols = e.target.result.replace(/[^?.,:;!¡¿。、·*\(\)\[\]\-\–\_«»\"\']/g, '')
+  const symbols = e.target.result.replace(/[^?.,:;!¡¿。、·*\(\)\[\]\-\–\_«»\'\']/g, '')
   printDataOnCanvas(symbols)
   dropTextOverlay.style.visibility = 'hidden'
 }
 
-window.addEventListener("drop", (e) => {
+window.addEventListener('drop', (e) => {
   e.preventDefault()
   e.stopPropagation()
   var file = (e.target.files || e.dataTransfer.files)[0]

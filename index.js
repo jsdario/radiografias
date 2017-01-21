@@ -100,11 +100,17 @@ function createHiDPICanvas (canvas, w, h, ratio) {
     return canvas
 }
 
+var dropTextInput = document.getElementById('drop-text-input')
 var dropTextOverlay = document.getElementById('drop-text-overlay')
 var dropTextTrigger = document.getElementById('drop-text-trigger')
 dropTextTrigger.onclick = () => {
-  console.log('clicked')
   const visibility = dropTextOverlay.style.visibility
+  
+  if (dropTextInput.value.length > 1) {
+    const symbols = dropTextInput.value.replace(/[^?.,:;!¡¿。、·*\(\)\[\]\-\–\_«»\'\']/g, '')
+    printDataOnCanvas(symbols)
+  } 
+
   dropTextOverlay.style.visibility = visibility === 'hidden'
     ? 'visible'
     : 'hidden'

@@ -1,0 +1,74 @@
+
+* { margin: 0; padding: 0; }
+*:focus {
+  outline: none;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+}
+
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder {
+  color: #ccc;
+  text-shadow: none;
+  -webkit-text-fill-color: initial;
+}
+
+#drop-text-overlay {
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  visibility: hidden;
+  background-color: rgba(255, 255, 255, .9);
+  top: 0; left: 0;
+  z-index: 5;
+}
+
+#drop-text-input {
+  width: 90vw;
+  height: 90vh;
+  margin-top: 5vh;
+  margin-bottom: 5vh;
+  margin-left: 5vw;
+  margin-right: 5vw;
+  min-height: 72px;
+  font-size: 36pt;
+  text-align: center;
+  border: none;
+  background-color: transparent;
+  resize: none;
+}
+
+#drop-text-button {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  font-size: 32px;
+  height: 50px; width: 50px;
+  display: block;
+  z-index: 10;
+}
+
+#drop-text-trigger {
+  border-radius: 50%;
+  box-shadow: 0 0 5px black;
+  background-color: black;
+  cursor: pointer;
+  display: block;
+  color: white;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  user-select: none;
+}
+
+#range-slider {
+  position: fixed;
+  bottom: 30px;
+  left: 25px;
+  width: 150px;
+}
+
+

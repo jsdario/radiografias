@@ -1,22 +1,9 @@
 const sin = Math.sin, cos = Math.cos, PI = Math.PI, exp = Math.exp,
 abs = Math.abs, floor = Math.floor, log = Math.log
 
-const PIXEL_RATIO = (function () {
-    var ctx = document.createElement('canvas').getContext('2d'),
-        dpr = window.devicePixelRatio || 1,
-        bsr = ctx.webkitBackingStorePixelRatio ||
-              ctx.mozBackingStorePixelRatio ||
-              ctx.msBackingStorePixelRatio ||
-              ctx.oBackingStorePixelRatio ||
-              ctx.backingStorePixelRatio || 1
-
-    return dpr / bsr
-})()
-
-
 const pi2 = 2 * PI
 // T = chars.length
-const O = (t) => t / (pi2 * (1 + t / 8000)) // angle printing
+const O = (t) => t / (pi2 * (1 + t / 1000)) // angle printing
 const A = (t) => pi2 * (pi2 + O(t) + log(O(t) + 1))// amplification or radius
 
 const curveY = (t) => A(t) * sin(O(t))
@@ -53,11 +40,11 @@ function printDataOnCanvas (data) {
   context.fillStyle = 'black'
   context.font = '24pt Fira'
 
-  context.fillText(
-    'Q',
-    canvasWidth / 2 - pi2 * 2,
-    canvasHeight / 2
-  )
+  // context.fillText(
+  //   'Q',
+  //   canvasWidth / 2 - pi2 * 2,
+  //   canvasHeight / 2
+  // )
 
   context.font = 'bold 14pt Fira'
 
@@ -100,47 +87,14 @@ function createHiDPICanvas (canvas, w, h, ratio) {
     return canvas
 }
 
-var dropTextInput = document.getElementById('drop-text-input')
-var dropTextOverlay = document.getElementById('drop-text-overlay')
-var dropTextTrigger = document.getElementById('drop-text-trigger')
-dropTextTrigger.onclick = () => {
-  const visibility = dropTextOverlay.style.visibility
-  
-  if (dropTextInput.value.length > 1) {
-    const symbols = dropTextInput.value.replace(/[^?.,:;!¡¿。、·*\(\)\[\]\-\–\_«»\'\']/g, '')
-    printDataOnCanvas(symbols)
-  } 
+const PIXEL_RATIO = (function () {
+    var ctx = document.createElement('canvas').getContext('2d'),
+        dpr = window.devicePixelRatio || 1,
+        bsr = ctx.webkitBackingStorePixelRatio ||
+              ctx.mozBackingStorePixelRatio ||
+              ctx.msBackingStorePixelRatio ||
+              ctx.oBackingStorePixelRatio ||
+              ctx.backingStorePixelRatio || 1
 
-  dropTextOverlay.style.visibility = visibility === 'hidden'
-    ? 'visible'
-    : 'hidden'
-}
-
-
-var isDragging = 0
-window.addEventListener('dragover', (e) => {
-  isDragging++
-  dropTextOverlay.style.visibility = 'visible'
-}, false)
-
-window.addEventListener('dragleave', () => {
-  isDragging--
-  if (isDragging === 0) {
-    dropTextOverlay.style.visibility = 'hidden'
-  }
-}, false)
-
-const reader = new FileReader()
-reader.onload = (e) => {
-  const symbols = e.target.result.replace(/[^?.,:;!¡¿。、·*\(\)\[\]\-\–\_«»\'\']/g, '')
-  printDataOnCanvas(symbols)
-  dropTextOverlay.style.visibility = 'hidden'
-}
-
-window.addEventListener('drop', (e) => {
-  e.preventDefault()
-  e.stopPropagation()
-  var file = (e.target.files || e.dataTransfer.files)[0]
-  reader.readAsText(file)
-  return false
-}, false)
+    return dpr / bsr
+})()

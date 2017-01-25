@@ -2,64 +2,8 @@
 <html>
 <head>
   <title>Q</title>
-  <style>
-    * { margin: 0; padding: 0; }
-    *:focus {
-      outline: none;
-    }
-
-    input::-webkit-input-placeholder,
-    textarea::-webkit-input-placeholder {
-      color: #ccc;
-      text-shadow: none;
-      -webkit-text-fill-color: initial;
-    }
-
-    #drop-text-overlay {
-      height: 100vh;
-      width: 100vw;
-      position: fixed;
-      visibility: hidden;
-      background-color: rgba(255, 255, 255, .9);
-      top: 0; left: 0;
-      z-index: 5;
-    }
-
-    #drop-text-input {
-      width: 80vw;
-      height: 80vh;
-      margin: 10vw 10vh;
-      min-height: 72px;
-      font-size: 36pt;
-      text-align: center;
-      border: none;
-      background-color: transparent;
-      resize: none;
-    }
-
-    #drop-text-button {
-      position: fixed;
-      bottom: 25px;
-      right: 25px;
-      font-size: 32px;
-      height: 50px; width: 50px;
-      display: block;
-      z-index: 10;
-    }
-
-    #drop-text-trigger {
-      border-radius: 50%;
-      box-shadow: 0 0 5px black;
-      background-color: black;
-      cursor: pointer;
-      display: block;
-      color: white;
-      width: 100%;
-      height: 100%;
-      text-align: center;
-      user-select: none;
-    }
-  </style>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+  <meta name="viewport" content="width=device-width">
 </head>
 <body>
 
@@ -69,13 +13,18 @@
     <textarea id="drop-text-input" placeholder="Add text or drop it on the browser..."></textarea>
   </div>
 
+  <input id="range-slider" type="range">
+
   <div id="drop-text-button">
-  <span id="drop-text-trigger"><span style="display: block; padding-top: 4px">¶</span></span>
+    <span id="drop-text-trigger">
+      <span style="display: block; padding-top: 4px">¶</span>
+    </span>
   </div>
 
   <script src="bower_components/promise-polyfill/promise.js"></script>
   <script src="bower_components/fetch/fetch.js"></script>
   <script src="bower_components/async/dist/async.js"></script>
+  <script src="iface.js"></script>
   <script src="index.js"></script>
 </body>
 </html>

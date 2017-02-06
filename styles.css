@@ -7,6 +7,7 @@
 html, body {
   height: 100%;
   width: 100%;
+  font-family: Fira, sans-serif, arial;
 }
 
 input::-webkit-input-placeholder,
@@ -29,8 +30,8 @@ textarea::-webkit-input-placeholder {
 #drop-text-input {
   width: 90vw;
   height: 90vh;
-  margin-top: 5vh;
-  margin-bottom: 5vh;
+  margin-top: 100px;
+  margin-bottom: 50px;
   margin-left: 5vw;
   margin-right: 5vw;
   min-height: 72px;
@@ -71,4 +72,27 @@ textarea::-webkit-input-placeholder {
   width: 150px;
 }
 
+#toolbar {
+  display: block;
+  position: fixed;
+  padding: 5px;
+  width: 100%;
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,ffffff+100&1+0,0+100;White+to+Transparent */
+  background: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#00ffffff',GradientType=0 ); /* IE6-9 */
+}
 
+#credit a {
+  color: inherit;
+}
+
+#credit {
+  color: rgba(0,0,0,.85);
+  position: absolute;
+  bottom: 15px;
+  width: 100%;
+  text-align: center;
+  padding: 15,
+}

@@ -1,19 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Q</title>
+  <title>Radiografias</title>
   <link rel="stylesheet" type="text/css" href="styles.css">
   <meta name="viewport" content="width=device-width">
 </head>
 <body>
 
+  <div id="toolbar">
+<!--     <span id="toolbar-params">
+      <i class="fa fa-repeat"></i> Pintar
+    </span>
+ -->
+  </div>
+
   <canvas id="entry-point" width="200" height="200"></canvas>
 
   <div id="drop-text-overlay">
-    <textarea id="drop-text-input" placeholder="Add text or drop it on the browser..."></textarea>
+    <textarea id="drop-text-input" placeholder="Escribe aquí, pega una url o arrastra un fichero al navegador."></textarea>
+    <span id="credit">
+      2017 © <a href="https://twitter.com/jsdariorivera" target="_blank">Jesús Darío</a>
+    </span>
   </div>
 
-  <input id="range-slider" type="range">
+  <!-- <input id="range-slider" type="range"> -->
 
   <div id="drop-text-button">
     <span id="drop-text-trigger">
